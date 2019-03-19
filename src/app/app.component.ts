@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -17,13 +18,15 @@ export class AppComponent {
     private authService: AuthService,
   ) {
     this.initializeApp();
-    this.authService.handleAuthentication();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      (<any>window).handleOpenURL = (url) => {
+        Auth0Cordova.onRedirectUri(url);
+      };
     });
   }
 }
